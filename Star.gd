@@ -8,12 +8,12 @@ var direction = Vector2(0, 0)
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	$"../ResetButton".connect("reset_pressed", self, "test")
+	Signals.connect("reset_pressed", self, "_test")
 	reset()
 
 func _process(delta):
 	var velocity = Vector2(0, 0)
-	#direction = randomize_direction() # Jitters.
+	direction = randomize_direction() # Jitters.
 	velocity.x = (direction.x * speed * delta)
 	velocity.y = (direction.y * speed * delta)
 	
@@ -48,5 +48,6 @@ func randomize_direction():
 	print("random direction: (%s, %s)" % [new_dirs.x, new_dirs.y])
 	return new_dirs
 
-func test():
-	print("BUTTON!!")
+func _test():
+	print("(reset) BUTTON PRESSED!!")
+	reset()

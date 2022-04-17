@@ -24,6 +24,10 @@ config/name="2022-04-16 Space"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Signals="*res://autoload/Signals.gd"
+
 [display]
 
 window/size/width=1400
