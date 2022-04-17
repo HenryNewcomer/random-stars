@@ -33,21 +33,19 @@ func _process(delta):
 func reset():
 	#origin = Vector2(screen_size.x / 2, screen_size.y / 2)
 	direction = randomize_direction()
-	origin = Vector2(direction.x*screen_size.x/20, direction.y*screen_size.y/20) # super hacky
+	#origin = Vector2(direction.x*screen_size.x/20, direction.y*screen_size.y/20) # super hacky
+	origin = Vector2(screen_size.x/2, screen_size.y/2)
 	place_at(origin)
 
 func place_at(move_to):
 	position.x = move_to.x
 	position.y = move_to.y
-	print("Specifically moved to: %s" % move_to)
 
 func randomize_direction():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	var new_dirs = Vector2(rng.randf_range(-1, 1), rng.randf_range(-1, 1))
-	print("random direction: (%s, %s)" % [new_dirs.x, new_dirs.y])
 	return new_dirs
 
 func _test():
-	print("(reset) BUTTON PRESSED!!")
 	reset()
