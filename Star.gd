@@ -1,10 +1,13 @@
 extends Area2D
 
-export var speed = 400
+export var speed = 300
 
 var screen_size
 var origin = Vector2(0, 0)
 var direction = Vector2(0, 0)
+var color
+
+# TODOs: random color (gradient based on distance?), and origin follow mouse
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -13,13 +16,18 @@ func _ready():
 
 func _process(delta):
 	var velocity = Vector2(0, 0)
-	direction = randomize_direction() # Jitters.
+	#direction = randomize_direction() # Jitters.
 	velocity.x = (direction.x * speed * delta)
 	velocity.y = (direction.y * speed * delta)
 	
 	position.x += velocity.x
 	position.y += velocity.y
 	
+	if position.x < 0 or position.x > screen_size.x-1 or \
+		position.y < 0 or position.y > screen_size.y-1:
+		reset()
+	
+	"""
 	if position.x < 0:
 		position.x = screen_size.x-1
 	if position.y < 0:
@@ -29,12 +37,16 @@ func _process(delta):
 		position.x = 0
 	if position.y > screen_size.y:
 		position.y = 0
+	"""
 
 func reset():
 	#origin = Vector2(screen_size.x / 2, screen_size.y / 2)
 	direction = randomize_direction()
 	#origin = Vector2(direction.x*screen_size.x/20, direction.y*screen_size.y/20) # super hacky
-	origin = Vector2(screen_size.x/2, screen_size.y/2)
+	#origin = Vector2(screen_size.x/2, screen_size.y/2) # Centered.
+	origin = Vector2(get_viewport().get_mouse_position()) # Follow mouse
+	scale.x = abs(direction.x)
+	scale.y = abs(direction.y)
 	place_at(origin)
 
 func place_at(move_to):
@@ -49,3 +61,4 @@ func randomize_direction():
 
 func _test():
 	reset()
+
